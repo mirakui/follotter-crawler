@@ -69,10 +69,3 @@ module Follotter
   end
 
 end
-
-def main
-  c = Follotter::Crawler.new
-  c.start_crawl
-end
-
-main

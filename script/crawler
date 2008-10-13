@@ -1,0 +1,8 @@
+#!/usr/bin/ruby -Ku
+$LOAD_PATH.push File.dirname(__FILE__)+"/../lib"
+require 'follotter_crawler'
+
+$PROGRAM_NAME = 'favotter-crawler'
+c = Follotter::Crawler.new
+c.start_crawl
+
