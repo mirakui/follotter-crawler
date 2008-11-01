@@ -2,14 +2,14 @@ require 'rubygems'
 require 'mysql'
 require 'pit'
 require 'parsedate'
-require 'db_constances'
+require 'db_constants'
 require 'follotter_logger'
 require 'language_filter'
 
 module Follotter
   class DB
     include FollotterLogger
-    include DBConstances
+    include DBConstants
 
     def initialize
       conf = Pit.get('folloter_mysql', :require=>{

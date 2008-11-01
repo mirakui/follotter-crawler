@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'pit'
 require 'follotter_logger'
 
 module Follotter
