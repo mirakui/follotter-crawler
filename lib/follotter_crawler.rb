@@ -5,6 +5,7 @@ require 'kconv'
 require 'db'
 require 'follotter_logger'
 require 'queue_client'
+require 'pp'
 
 module Follotter
   CRAWL_LIMIT = 100
@@ -26,6 +27,9 @@ module Follotter
         target_id = target['id']
 
         @db.clear_friendships(target_id)
+
+        #user = _crawl_user(target_id)
+        #log.info "user info added"
 
         friends = _crawl_friends(target_id)
         log.info "#{friends.length} friends added"
@@ -85,6 +89,30 @@ module Follotter
         return followers
       end
     end
+
+    def _crawl_user(target_id)
+      user = @client.get_json "/users/show/#{target_id}.json"
+      pp user
+
+      log.info("_crawl_user target_id:#{target_id}")
+      user = user.convert_from_twitter_user_hash
+      pp user
+      @db.store_user(user)
+      user
+    end
+
+  public
+    def test
+      u = _crawl_user('mirakui')
+      @db.store_crawled(u['user_id'])
+      @db.commit
+    end
   end
 
 end
+
+__END__
+
+c = Follotter::Crawler.new
+c.test
+
