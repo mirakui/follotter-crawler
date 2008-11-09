@@ -1,8 +1,19 @@
 #!/usr/bin/ruby -Ku
-$LOAD_PATH.push File.dirname(__FILE__)+"/../lib"
-require 'follotter_crawler'
+PATH_BASE = File.join(File.dirname(__FILE__), '..')
+PID_PATH  = File.join(PATH_BASE, 'tmp', 'follotter-crawler.pid')
 
-$PROGRAM_NAME = 'favotter-crawler'
-c = Follotter::Crawler.new
-c.start_crawl
+$LOAD_PATH.push File.join(PATH_BASE, 'lib')
+require 'follotter_crawler'
+require 'pid_manager'
+
+pid = PidManager.new PID_PATH
+pid.push
+
+begin
+  $PROGRAM_NAME = 'follotter-crawler'
+  c = Follotter::Crawler.new
+  c.start_crawl
+ensure
+  pid.pop
+end
 
