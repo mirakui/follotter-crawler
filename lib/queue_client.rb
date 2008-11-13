@@ -15,7 +15,7 @@ module Follotter
     end
 
     def load_queue
-      url = 'http://tsuyabu.in:4000/queue/next'
+      url = 'http://localhost:4000/queue/next'
       str = open(url).read
       @queue = YAML.load(str)
       @seek = 0

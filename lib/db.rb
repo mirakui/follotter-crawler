@@ -171,7 +171,8 @@ class Hash
       buf['last_posted_at'] = st['created_at'].parse_twitter_date.mysql_format if st['created_at']
       buf['last_status'] = st['text'] if st['text']
     end
-    buf['language'] = Follotter::LanguageFilter.user_language(buf)
+    lang = Follotter::LanguageFilter.user_language(buf)
+    buf['language'] = lang if lang
     buf
   end
 end
