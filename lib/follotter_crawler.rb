@@ -30,9 +30,6 @@ module Follotter
 
         @db.clear_friendships(target_id)
 
-        #user = _crawl_user(target_id)
-        #log.info "user info added"
-
         friends = _crawl_friends(target_id)
         log.info "#{friends.length} friends added"
 
@@ -40,7 +37,6 @@ module Follotter
         log.info "#{followers.length} followers added"
         
         @db.store_crawled(target_id)
-        @db.commit
         log.info 'committed'
         i += 1
       rescue Exception => e
