@@ -43,7 +43,8 @@ module Follotter
         log.error e.to_str + e.backtrace.join("\n\t")
         @db.rollback
         log.error 'rollbacked'
-        retry if retry_count+=1 < RETRY_LIMIT
+        #retry if retry_count+=1 < RETRY_LIMIT
+        retry
       #end while(i<CRAWL_LIMIT)
       end while(true)
     end
