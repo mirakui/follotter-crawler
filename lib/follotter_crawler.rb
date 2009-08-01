@@ -9,6 +9,7 @@ require 'pp'
 
 module Follotter
   CRAWL_LIMIT = 100
+  RETRY_LIMIT = 10
   class Crawler
     include FollotterLogger
 
@@ -20,6 +21,7 @@ module Follotter
 
     def start_crawl
       i = 0
+      retry_count = 0
       begin
         target = @queue_client.pop
 
@@ -42,11 +44,10 @@ module Follotter
         log.info 'committed'
         i += 1
       rescue Exception => e
-        log.error e.class
+        log.error e.to_str + e.backtrace.join("\n\t")
         @db.rollback
         log.error 'rollbacked'
-        #raise e
-        retry
+        retry if retry_count+=1 < RETRY_LIMIT
       #end while(i<CRAWL_LIMIT)
       end while(true)
     end

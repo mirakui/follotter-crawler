@@ -5,7 +5,7 @@ module FollotterLogger
     unless defined? $_log
       path = File.dirname(__FILE__)+"/../log/crawler#{$$}.log"
       puts path
-      $_log = Logger.new(path)
+      $_log = Logger.new($DEBUG ? STDOUT : path)
       $_log.level = Logger::INFO
     end
     $_log
